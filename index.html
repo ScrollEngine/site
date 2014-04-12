@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Site : The Scroll public site." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Site</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ScrollServer/site">View on GitHub</a>
+
+          <h1 id="project_title">Site</h1>
+          <h2 id="project_tagline">The Scroll public site.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ScrollServer/site/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ScrollServer/site/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Scroll is a blog engine/CMS designed for and built in Node.js. It is meant to be easy to set up and use, but fully customizable so you can tailor it to your needs without headaches.</p>
+
+<h2>
+<a name="design-philosophy" class="anchor" href="#design-philosophy"><span class="octicon octicon-link"></span></a>Design Philosophy</h2>
+
+<p>The core philosophy of Scroll is that, in general, is it is unopinionated. It is more of a manager that allows you to use the proven tools and techniques you know and love when customizing your site, while at the same time providing a base for utilizing such things. That is, it does not require a specific client-side framework, view engine, or data store.</p>
+
+<p>This power comes from the fact that Scroll is a strict MVC application, but with each peice being modular. While you have to have a view layer, controller layer, and a model layer, they are each replacable and/or extendable. To make this process easier, Scroll utilizes the proven technology of NPM to manage the model and view layer, so using a different one is as easy as <code>npm install</code>ing a different module.</p>
+
+<p>AS you read this guide, you will also notice that there is no fancy CLI commands or custom setup for using Scroll. This is because Scroll is designed to not only be easy to personalize, but also easy to publish. It is PaaS friendly, so to speak. Your Scroll server starts just like any other Node.js application, without the need for proprietary, globally installed commands or generators.</p>
+
+<h2>
+<a name="using" class="anchor" href="#using"><span class="octicon octicon-link"></span></a>Using</h2>
+
+<p>Step one is to NPM install the <code>scroll-core</code> module, which can be considered the controller layer..in a way. It is also the server and manager that handles the model and view layers. By default Scroll will use the <code>scroll-model-mongodb</code> module for the model layer and the <code>scroll-view-basic</code> module for the view layer.</p>
+
+<p>Using and starting the Scroll server is simliar to Express, if you are familiar with that. It only requires a few lines of code to get it started up.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">scroll</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'scroll-core'</span><span class="p">),</span>
+    <span class="nx">app</span> <span class="o">=</span> <span class="nx">scroll</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="p">{</span><span class="nx">connection</span><span class="o">:</span><span class="s1">'[mongo_url]'</span><span class="p">}});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="mi">9876</span><span class="p">);</span>
+</pre></div>
+
+<p>As stated above, this will start a Scroll server, connecting to the MongoDB url given. This will also use the basic view (kind of like a theme), which is not the most amazing ever. So now its all about customizing your Scroll site.</p>
+
+<h2>
+<a name="customizing" class="anchor" href="#customizing"><span class="octicon octicon-link"></span></a>Customizing</h2>
+
+<p>Making your Scroll site look and work the way you want can be as easy as installing a different module or as complex as reimplementing most of the Scroll server. It is completely up to you how far you want to go.</p>
+
+<h3>
+<a name="view-and-model-modules" class="anchor" href="#view-and-model-modules"><span class="octicon octicon-link"></span></a>View and Model modules</h3>
+
+<p>The simpliest way to customize Scroll is to install different view and model layers. You can search for ones that suit your infrastrcutre/design needs then use <code>npm install [module] --save</code> to install and save it to your application.</p>
+
+<p>A <strong>model module</strong> will, basically, represent how your data is stored and retrieved, an interface for raw data. Most of the time the only important factor is the data store used, IE MongoDB, MySQL, etc.</p>
+
+<p><strong>View modules</strong> are your complete front end. They can be thought of themes, but in general they will do much more than just apply some CSS and define pages. They not only manage the view engine behind your front end, but also can define custom routes, manage all your public files, and can even customize how your Scroll application actually works. Just make sure you choose the right view layer that is right for you.</p>
+
+<h3>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
+
+<p>When you create your Scroll server, you can pass in a configuration which can override a good amount of functionality of Scroll. See the full list for all the options, but here are some common things you may want to override. See the usage example above for where exactly in the process you provide this configuration.</p>
+
+<h4>
+<a name="view-module-viewscroll-view-basic" class="anchor" href="#view-module-viewscroll-view-basic"><span class="octicon octicon-link"></span></a>View Module <code>{view:'scroll-view-basic'}</code>
+</h4>
+
+<p>This must be set in order to use a custom view module.</p>
+
+<h4>
+<a name="model-module-modelmodulescroll-view-mongodb" class="anchor" href="#model-module-modelmodulescroll-view-mongodb"><span class="octicon octicon-link"></span></a>Model Module <code>{model:{module:'scroll-view-mongodb'}}</code>
+</h4>
+
+<p>This must be set in order to use a custom model module.</p>
+
+<h4>
+<a name="model-connection--modelconnectionurl" class="anchor" href="#model-connection--modelconnectionurl"><span class="octicon octicon-link"></span></a>Model Connection  <code>{model:{connection:'[url]'}}</code>
+</h4>
+
+<p>Set the connection to the data store.</p>
+
+<h4>
+<a name="view-pages-viewspostviewanotherview" class="anchor" href="#view-pages-viewspostviewanotherview"><span class="octicon octicon-link"></span></a>View Pages <code>{views:{post:{view:'anotherView'}}}</code>
+</h4>
+
+<p>This allows you to override the views used in the default </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Site maintained by <a href="https://github.com/ScrollServer">ScrollServer</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
